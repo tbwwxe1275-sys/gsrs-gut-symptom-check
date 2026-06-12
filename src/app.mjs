@@ -1,14 +1,11 @@
 import {
   DIMENSIONS,
   GSRS_SCHEMA,
-  calculateAssessment,
   getDimensionScores,
 } from "./scoring.mjs";
+import { createAssessmentController } from "./assessment-controller.mjs";
 
-const state = {
-  currentIndex: 0,
-  answers: {},
-};
+const controller = createAssessmentController();
 
 const els = {
   progressText: document.querySelector("#progressText"),
@@ -17,9 +14,12 @@ const els = {
   dimensionChip: document.querySelector("#dimensionChip"),
   questionTitle: document.querySelector("#questionTitle"),
   questionPlain: document.querySelector("#questionPlain"),
+  dimensionHint: document.querySelector("#dimensionHint"),
   scaleGrid: document.querySelector("#scaleGrid"),
   prevBtn: document.querySelector("#prevBtn"),
   nextBtn: document.querySelector("#nextBtn"),
+  mobilePrevBtn: document.querySelector("#mobilePrevBtn"),
+  mobileNextBtn: document.querySelector("#mobileNextBtn"),
   toast: document.querySelector("#toast"),
   dimensionList: document.querySelector("#dimensionList"),
   resultPanel: document.querySelector("#resultPanel"),
@@ -29,25 +29,28 @@ const els = {
   burdenLevel: document.querySelector("#burdenLevel"),
   resultBars: document.querySelector("#resultBars"),
   resultNotes: document.querySelector("#resultNotes"),
+  editAnswersBtn: document.querySelector("#editAnswersBtn"),
 };
 
 function currentItem() {
-  return GSRS_SCHEMA.items[state.currentIndex];
+  return controller.snapshot().currentItem;
 }
 
 function answeredCount() {
-  return GSRS_SCHEMA.items.filter((item) => Number.isFinite(Number(state.answers[item.id]))).length;
+  return controller.snapshot().answeredCount;
 }
 
 function renderQuestion() {
+  const snapshot = controller.snapshot();
   const item = currentItem();
   const dimension = DIMENSIONS[item.dimension];
-  const selectedValue = state.answers[item.id];
+  const selectedValue = snapshot.answers[item.id];
 
   els.dimensionChip.style.setProperty("--chip-color", dimension.color);
   els.dimensionChip.querySelector("span").textContent = dimension.label;
   els.questionTitle.textContent = item.title;
   els.questionPlain.textContent = item.plainTitle;
+  els.dimensionHint.textContent = `${dimension.shortLabel}：${dimension.description}`;
 
   els.scaleGrid.innerHTML = GSRS_SCHEMA.scale
     .map(
@@ -67,11 +70,16 @@ function renderQuestion() {
     )
     .join("");
 
-  els.progressText.textContent = `第 ${state.currentIndex + 1} / ${GSRS_SCHEMA.items.length} 题`;
-  els.prevBtn.disabled = state.currentIndex === 0;
-  els.prevBtn.style.visibility = state.currentIndex === 0 ? "hidden" : "visible";
-  els.nextBtn.textContent = state.currentIndex === GSRS_SCHEMA.items.length - 1 ? "查看结果" : "下一题";
+  els.progressText.textContent = `第 ${snapshot.currentIndex + 1} / ${GSRS_SCHEMA.items.length} 题`;
+  els.prevBtn.disabled = snapshot.currentIndex === 0;
+  els.mobilePrevBtn.disabled = snapshot.currentIndex === 0;
+  els.prevBtn.style.visibility = snapshot.currentIndex === 0 ? "hidden" : "visible";
+  els.mobilePrevBtn.style.visibility = snapshot.currentIndex === 0 ? "hidden" : "visible";
+  els.nextBtn.textContent = snapshot.currentIndex === GSRS_SCHEMA.items.length - 1 ? "查看结果" : "下一题";
+  els.mobileNextBtn.textContent = els.nextBtn.textContent;
   els.toast.textContent = "";
+  els.resultPanel.classList.toggle("is-visible", snapshot.resultVisible);
+  document.body.classList.toggle("has-result", snapshot.resultVisible);
   renderProgress();
   renderDimensionList();
 }
@@ -84,7 +92,7 @@ function renderProgress() {
 }
 
 function renderDimensionList() {
-  const scores = getDimensionScores(state.answers);
+  const scores = getDimensionScores(controller.snapshot().answers);
 
   els.dimensionList.innerHTML = Object.entries(DIMENSIONS)
     .map(([id, dimension]) => {
@@ -108,7 +116,7 @@ function renderDimensionList() {
 }
 
 function renderResult() {
-  const result = calculateAssessment(state.answers);
+  const result = controller.showResult();
 
   if (!result.complete) {
     els.toast.textContent = `还差 ${result.missingCount} 题，答完后再生成画像。`;
@@ -117,6 +125,7 @@ function renderResult() {
 
   const top = result.rankedDimensions[0];
   els.resultPanel.classList.add("is-visible");
+  document.body.classList.add("has-result");
   els.resultTitle.textContent = `${top.shortLabel}信号最突出`;
   els.resultSummary.textContent = result.summary;
   els.totalMean.textContent = result.totalMean.toFixed(2);
@@ -155,38 +164,47 @@ els.scaleGrid.addEventListener("click", (event) => {
   const button = event.target.closest(".scale-option");
   if (!button) return;
 
-  const item = currentItem();
-  state.answers[item.id] = Number(button.dataset.value);
+  controller.selectAnswer(Number(button.dataset.value));
   renderQuestion();
-
-  if (state.currentIndex < GSRS_SCHEMA.items.length - 1) {
-    window.setTimeout(() => {
-      state.currentIndex += 1;
-      renderQuestion();
-    }, 130);
-  }
 });
 
 els.prevBtn.addEventListener("click", () => {
-  state.currentIndex = Math.max(0, state.currentIndex - 1);
+  controller.goPrevious();
   renderQuestion();
 });
 
 els.nextBtn.addEventListener("click", () => {
-  const item = currentItem();
+  handleNext();
+});
 
-  if (!Number.isFinite(Number(state.answers[item.id]))) {
+els.mobileNextBtn.addEventListener("click", () => {
+  handleNext();
+});
+
+function handleNext() {
+  if (!controller.canGoNext()) {
     els.toast.textContent = "先选一个最接近的程度，再继续。";
     return;
   }
 
-  if (state.currentIndex === GSRS_SCHEMA.items.length - 1) {
+  if (controller.snapshot().currentIndex === GSRS_SCHEMA.items.length - 1) {
     renderResult();
     return;
   }
 
-  state.currentIndex += 1;
+  controller.goNext();
   renderQuestion();
+}
+
+els.mobilePrevBtn.addEventListener("click", () => {
+  controller.goPrevious();
+  renderQuestion();
+});
+
+els.editAnswersBtn.addEventListener("click", () => {
+  controller.jumpTo(controller.snapshot().currentIndex);
+  renderQuestion();
+  document.querySelector(".question-zone").scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
 renderQuestion();

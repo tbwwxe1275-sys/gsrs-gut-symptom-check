@@ -67,6 +67,7 @@
             <div id="dimensionChip" class="dimension-chip"><i></i><span></span></div>
             <h2 id="questionTitle" class="question-title"></h2>
             <p id="questionPlain" class="question-plain"></p>
+            <div id="dimensionHint" class="dimension-hint"></div>
             <div id="scaleGrid" class="scale-grid" role="radiogroup" aria-label="症状严重程度"></div>
             <div class="nav-row">
               <button id="prevBtn" class="btn btn-secondary" type="button">上一题</button>
@@ -82,11 +83,11 @@
             <div id="dimensionList" class="dimension-list"></div>
           </section>
           <section class="side-section">
-            <h2 class="side-title">边界说明</h2>
+            <h2 class="side-title">怎么看这 5 类信号</h2>
             <ul class="evidence-list">
-              <li>按反流、腹痛、胀气、腹泻、便秘五类信号整理。</li>
-              <li>结果用于帮你描述症状，不替代医生面诊或检查。</li>
-              <li>答完后可以截图保存，咨询时更容易说清楚。</li>
+              <li>反流更常见的是烧心、反酸、往上顶。</li>
+              <li>胀气和消化不良常和餐量、进食速度、产气食物有关。</li>
+              <li>排便节律能帮你区分偏腹泻还是偏便秘。</li>
             </ul>
           </section>
           <section class="side-section qr-side">
@@ -108,6 +109,7 @@
             <p class="result-kicker">你的胃肠症状画像</p>
             <h2 id="resultTitle" class="result-title"></h2>
             <p id="resultSummary" class="result-summary"></p>
+            <button id="editAnswersBtn" class="btn btn-secondary result-edit-btn" type="button">修改答案</button>
           </div>
           <div class="score-badge">
             <div>
@@ -150,6 +152,11 @@
         本工具为健康教育与自我观察用途。若出现黑便、便血、持续呕吐、进行性体重下降、吞咽困难、严重腹痛、发热或症状持续加重，请及时就医。
       </p>
     </main>
+
+    <div class="mobile-action-bar" aria-label="移动端答题操作">
+      <button id="mobilePrevBtn" class="btn btn-secondary" type="button">上一题</button>
+      <button id="mobileNextBtn" class="btn btn-primary" type="button">下一题</button>
+    </div>
 
     <script type="module" src="./src/app.mjs"></script>
   </body>
