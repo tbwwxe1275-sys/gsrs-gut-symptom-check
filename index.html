@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>胃肠症状自测 | 15题 5维度</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="topbar">
+        <div class="brand">
+          <img class="brand-logo" src="./assets/logo.png" alt="有愈健康顾问 logo" />
+          <div>
+            <p class="brand-kicker">有愈 · 胃肠症状自测</p>
+            <p class="brand-name">3 分钟看清你的胃肠信号</p>
+          </div>
+        </div>
+        <div class="top-actions" aria-label="产品信息">
+          <span class="pill">15 题</span>
+          <span class="pill">5 维度</span>
+          <span class="pill">过去一周</span>
+        </div>
+      </header>
+
+      <section class="layout" aria-label="胃肠症状自测">
+        <article class="main-panel">
+          <section class="hero">
+            <div>
+              <p class="eyebrow"><span class="dot"></span>15题看清过去一周的胃肠信号</p>
+              <h1>
+                <span>你的胃肠不舒服</span>
+                <span>更偏向哪一种信号？</span>
+              </h1>
+              <p class="hero-copy">
+                用 15 个问题把过去一周的反流、腹痛、消化不良、腹泻和便秘信号分开看。
+                答完后生成一张个人胃肠症状画像，方便你记录、复盘，也方便后续咨询时说清楚。
+              </p>
+            </div>
+            <div class="hero-stats" aria-label="测评要点">
+              <div class="stat">
+                <strong>7级</strong>
+                <span>从没有到很严重</span>
+              </div>
+              <div class="stat">
+                <strong>5类</strong>
+                <span>反流、腹痛、胀气、腹泻、便秘</span>
+              </div>
+              <div class="stat">
+                <strong>安心测</strong>
+                <span>答完立即看到结果</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="progress-zone" aria-label="答题进度">
+            <div class="progress-meta">
+              <span id="progressText">第 1 / 15 题</span>
+              <span id="answeredText">已完成 0 题</span>
+            </div>
+            <div class="progress-track" aria-hidden="true">
+              <div id="progressFill" class="progress-fill"></div>
+            </div>
+          </section>
+
+          <section class="question-zone">
+            <div id="dimensionChip" class="dimension-chip"><i></i><span></span></div>
+            <h2 id="questionTitle" class="question-title"></h2>
+            <p id="questionPlain" class="question-plain"></p>
+            <div id="scaleGrid" class="scale-grid" role="radiogroup" aria-label="症状严重程度"></div>
+            <div class="nav-row">
+              <button id="prevBtn" class="btn btn-secondary" type="button">上一题</button>
+              <p id="toast" class="toast" role="status" aria-live="polite"></p>
+              <button id="nextBtn" class="btn btn-primary" type="button">下一题</button>
+            </div>
+          </section>
+        </article>
+
+        <aside class="side-panel" aria-label="测评侧栏">
+          <section class="side-section">
+            <h2 class="side-title">实时维度</h2>
+            <div id="dimensionList" class="dimension-list"></div>
+          </section>
+          <section class="side-section">
+            <h2 class="side-title">边界说明</h2>
+            <ul class="evidence-list">
+              <li>按反流、腹痛、胀气、腹泻、便秘五类信号整理。</li>
+              <li>结果用于帮你描述症状，不替代医生面诊或检查。</li>
+              <li>答完后可以截图保存，咨询时更容易说清楚。</li>
+            </ul>
+          </section>
+          <section class="side-section qr-side">
+            <h2 class="side-title">答完后领取记录表</h2>
+            <div class="qr-card">
+              <img src="./assets/wecom-qr-crop.jpg" alt="企业微信二维码" />
+              <div>
+                <strong>静静 · 健康顾问</strong>
+                <span>结果页会出现清晰二维码，扫码可继续咨询或领取记录表。</span>
+              </div>
+            </div>
+          </section>
+        </aside>
+      </section>
+
+      <section id="resultPanel" class="result-panel" aria-label="测评结果">
+        <div class="result-header">
+          <div>
+            <p class="result-kicker">你的胃肠症状画像</p>
+            <h2 id="resultTitle" class="result-title"></h2>
+            <p id="resultSummary" class="result-summary"></p>
+          </div>
+          <div class="score-badge">
+            <div>
+              <strong id="totalMean">--</strong>
+              <span id="burdenLevel">待完成</span>
+            </div>
+          </div>
+        </div>
+        <div class="result-body">
+          <div>
+            <div id="resultBars" class="bars"></div>
+            <aside class="cta-box cta-box-mobile">
+              <div class="cta-logo">
+                <img src="./assets/logo.png" alt="有愈 logo" />
+                <div>
+                  <strong>把结果带走</strong>
+                  <span>扫码添加企业微信</span>
+                </div>
+              </div>
+              <img class="qr-large" src="./assets/wecom-qr-crop.jpg" alt="企业微信二维码" />
+              <p>扫码后发送「胃肠自测」，领取一份症状记录表，也可以把当前结果截图发给健康顾问。</p>
+            </aside>
+            <div id="resultNotes" class="result-notes"></div>
+          </div>
+          <aside class="cta-box cta-box-desktop">
+            <div class="cta-logo">
+              <img src="./assets/logo.png" alt="有愈 logo" />
+              <div>
+                <strong>把结果带走</strong>
+                <span>扫码添加企业微信</span>
+              </div>
+            </div>
+            <img class="qr-large" src="./assets/wecom-qr-crop.jpg" alt="企业微信二维码" />
+            <p>扫码后发送「胃肠自测」，领取一份症状记录表，也可以把当前结果截图发给健康顾问。</p>
+          </aside>
+        </div>
+      </section>
+
+      <p class="footnote">
+        本工具为健康教育与自我观察用途。若出现黑便、便血、持续呕吐、进行性体重下降、吞咽困难、严重腹痛、发热或症状持续加重，请及时就医。
+      </p>
+    </main>
+
+    <script type="module" src="./src/app.mjs"></script>
+  </body>
+</html>
