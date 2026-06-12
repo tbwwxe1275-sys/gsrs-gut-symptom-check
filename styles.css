@@ -776,6 +776,48 @@ h1 span {
     padding-right: 18px;
   }
 
+  .result-header {
+    gap: 16px;
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+
+  .result-title {
+    font-size: 32px;
+  }
+
+  .result-summary {
+    margin-top: 10px;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .score-badge {
+    min-height: 124px;
+  }
+
+  .score-badge strong {
+    font-size: 44px;
+  }
+
+  .result-body {
+    padding-top: 22px;
+    padding-bottom: 26px;
+  }
+
+  .bars {
+    gap: 12px;
+  }
+
+  .cta-box-mobile {
+    margin-top: 18px;
+  }
+
+  .qr-large {
+    max-width: 212px;
+    border-width: 8px;
+  }
+
   .hero-stats {
     grid-template-columns: 1fr;
   }
