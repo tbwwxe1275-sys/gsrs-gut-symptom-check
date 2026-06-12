@@ -8,6 +8,8 @@
   --line: #e5ded1;
   --accent: #f2652e;
   --accent-deep: #ba3e21;
+  --accent-warm: #ff8a3d;
+  --accent-light: #ffb45a;
   --green: #2f7d71;
   --gold: #b88637;
   --blue: #3278b7;
@@ -235,7 +237,7 @@ h1 span {
   width: 0;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--accent), var(--green));
+  background: linear-gradient(90deg, var(--accent-deep), var(--accent), var(--accent-warm), var(--accent-light));
   transition: width 220ms ease;
 }
 

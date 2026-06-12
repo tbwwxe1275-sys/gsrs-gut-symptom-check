@@ -1,36 +1,38 @@
+const DIMENSION_BAR_COLOR = "#f2652e";
+
 export const DIMENSIONS = {
   reflux: {
     label: "反流信号",
     shortLabel: "反流",
-    color: "#d45a38",
+    color: DIMENSION_BAR_COLOR,
     description: "烧心、反酸、胃内容物上返感更突出。",
     suggestion: "更适合先观察夜间反流、餐后躺卧、咖啡酒精和高脂饮食等触发因素。",
   },
   abdominalPain: {
     label: "腹痛信号",
     shortLabel: "腹痛",
-    color: "#9d6b2f",
+    color: DIMENSION_BAR_COLOR,
     description: "上腹不适、饥饿痛、恶心一类体验更明显。",
     suggestion: "更适合记录疼痛和进食、压力、睡眠、药物之间的关系。",
   },
   indigestion: {
     label: "消化不良信号",
     shortLabel: "消化不良",
-    color: "#2f7d71",
+    color: DIMENSION_BAR_COLOR,
     description: "腹胀、嗳气、肠鸣、排气等胀满感更集中。",
     suggestion: "更适合从进食速度、餐量、产气食物和餐后活动开始排查。",
   },
   diarrhea: {
     label: "腹泻信号",
     shortLabel: "腹泻",
-    color: "#3278b7",
+    color: DIMENSION_BAR_COLOR,
     description: "稀便、排便次数增多、便意急迫更突出。",
     suggestion: "更适合记录近期饮食变化、感染线索、乳糖/酒精/辛辣刺激和作息波动。",
   },
   constipation: {
     label: "便秘信号",
     shortLabel: "便秘",
-    color: "#6d62b7",
+    color: DIMENSION_BAR_COLOR,
     description: "排便减少、粪便偏硬、排不尽感更突出。",
     suggestion: "更适合先看饮水、膳食纤维、久坐、运动和排便节律。",
   },
